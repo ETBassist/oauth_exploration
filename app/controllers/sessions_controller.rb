@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   def create
-    client_id = '570b1c264494a74cf00c'
-    client_secret = 'd3912f90f3b3f8c72f4d920c131425eeb2975c7e'
+    client_id = ENV['GH_CLIENT_ID']
+    client_secret = ENV['GH_CLIENT_SECRET']
     code = params[:code]
 
     conn = Faraday.new(url: 'https://github.com', headers: {'Accept': 'application/json'})

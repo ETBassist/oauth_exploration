@@ -6,6 +6,8 @@ class DashboardController < ApplicationController
     )
     response = conn.get('/user/repos')
 
-    @repos = JSON.parse(response.body, symbolize_names: true)
+    @public_repos = JSON.parse(response.body, symbolize_names: true)
+    response = conn.get('/user/repos?type=private')
+    @private_repos = JSON.parse(response.body, symbolize_names: true)
   end
 end

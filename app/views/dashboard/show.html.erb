@@ -1,5 +1,11 @@
 <h1>Welcome, <%= current_user.username %></h1>
 
-<% @repos.each do |repo| %>
-  <h3><%= link_to repo[:name], repo[:html_url] %>
+<h2>Public Repos</h2>
+<% @public_repos.each do |repo| %>
+  <h3><%= link_to repo[:name], repo[:html_url] %></h3>
+<% end %>
+
+<h2>Private Repos</h2>
+<% @private_repos.each do |repo| %>
+  <h3><%= link_to repo[:name], repo[:html_url] %></h3>
 <% end %>
