@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   def create
-    client_id = ENV['CLIENT_ID']
-    client_secret = ENV['CLIENT_SECRET']
+    client_id = '570b1c264494a74cf00c'
+    client_secret = 'd3912f90f3b3f8c72f4d920c131425eeb2975c7e'
     code = params[:code]
 
     conn = Faraday.new(url: 'https://github.com', headers: {'Accept': 'application/json'})
@@ -21,7 +21,20 @@ class SessionsController < ApplicationController
         'Authorization': "token #{access_token}"
       }
     )
+
     response = conn.get('/user')
     data = JSON.parse(response.body, symbolize_names: true)
+
+    user = User.find_or_create_by(uid: data[:id])
+    if not user
+      user.username = data[:login]
+      user.uid = data[:id]
+      user.token = access_token
+      user.save
+    end
+
+    session[:user_id] = user.id
+
+    redirect_to dashboard_path
   end
 end
